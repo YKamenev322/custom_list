@@ -289,9 +289,9 @@ void CstList<ltype>::print()
     }
 }
 
-/** @brief Erases element from list.
+/** @brief Returns pointer to the cell with the pos number.
   *
-  * @param[in]  pos    Number of cell which will be erased.
+  * @param[in]  pos    Number of cell which ponter will be returned.
   */
 template <typename ltype>
 cell* CstList<ltype>::find(unsigned long pos)

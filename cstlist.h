@@ -254,10 +254,9 @@ bool CstList<ltype>::isEmpty()
 template <typename ltype>
 void CstList<ltype>::clear()
 {
-    for(unsigned long i=0; i<size; i++) {
-        erase(i);
+    while(size!=0) {
+        pop_front();
     }
-    size = 0;
 }
 
 /** @brief Returns size of the list.
@@ -281,13 +280,13 @@ void CstList<ltype>::swap(unsigned long cell1, unsigned long cell2)
         return;
     }
 
-    ltype data1, data2, tmp;
-    data1 = get(cell1);
-    data2 = get(cell2);
+    ltype tmp;
+    cell *ptr1 = find(cell1);
+    cell *ptr2 = find(cell2);
 
-    tmp = data1;
-    data1 = data2;
-    data2 = tmp;
+    tmp = ptr1->data;
+    ptr1->data = ptr2->data;
+    ptr2->data = tmp;
 }
 
 /** @brief Inserts element before the pos number.
@@ -369,7 +368,6 @@ void CstList<ltype>::erase(unsigned long pos)
     }
 
     cell *target = find(pos);
-    cell *previous, *next;
 
     if(target == first) { // first position
         first = target->next;
@@ -380,8 +378,8 @@ void CstList<ltype>::erase(unsigned long pos)
         last->next = nullptr;
     }
     else { // middle position
-        previous = target->prev;
-        next = target->next;
+        cell* previous = target->prev;
+        cell* next = target->next;
 
         next->prev = previous;
         previous->next = next;
@@ -418,7 +416,7 @@ template <typename ltype>
 void CstList<ltype>::print()
 {
     for(unsigned long i=0; i<size; i++) {
-        std::cout << i << " value: " << get(i) << std::endl;
+        std::cout << i << " value: \t" << get(i) << std::endl;
     }
 }
 
@@ -513,6 +511,26 @@ void CstList<ltype>::split(CstList<ltype> &right, unsigned long pos)
 template <typename ltype>
 void CstList<ltype>::sort(bool ascending)
 {
+    if(size == 0) {
+        return;
+    }
+
+    for(unsigned long i=0; i<size-1; i++) {
+        for(unsigned long j=0; j<size-i-1; j++) {
+            bool result;
+            if(ascending) {
+                result = get(j+1) < get(j);
+            }
+            else {
+                result = get(j+1) > get(j);
+            }
+            if(result) {
+                swap(j, j+1);
+            }
+        }
+    }
+
+    /*
     if(size > 1) {
         const unsigned long left_size = size / 2;
         const unsigned long right_size = size - left_size;
@@ -521,7 +539,7 @@ void CstList<ltype>::sort(bool ascending)
         left = *this;
         split(right, left_size);
 
-        sort(ascending);
+        left.sort(ascending);
         right.sort(ascending);
 
         unsigned long lidx = 0, ridx = 0;
@@ -540,7 +558,7 @@ void CstList<ltype>::sort(bool ascending)
                 temp.merge(right);
                 break;
             }
-            if (ridx == size) {
+            if (ridx == right_size) {
                 temp.merge(left);
                 break;
             }
@@ -548,6 +566,7 @@ void CstList<ltype>::sort(bool ascending)
 
         *this = temp;
     }
+    */
 }
 
 

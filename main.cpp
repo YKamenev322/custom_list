@@ -42,7 +42,7 @@ int main()
     */
 
     cout << "Program started, this program is infinite!" << endl;
-    cout << "Type insert, pop_back, push_back, pop_front, push_front, erase, unique, size, set, clear, print or sort" << endl;
+    cout << "Type insert, pop_back, push_back, pop_front, push_front, erase, unique, size, set, clear, reverse, print or sort" << endl;
     cout << "You can type fill_rand or fill_order to fill list with numbers" << endl;
     cout << "Type end to end the program" << endl;
 
@@ -115,12 +115,20 @@ int main()
             list.print();
         }
         else if(input == "sort") {
+            bool type;
+            cout << "1 to ascending / 0 to descending" << endl;
+            cin >> type;
+
             cout << "Sort casted" << endl;
-            list.sort();
+            list.sort(type);
         }
         else if(input == "clear") {
             cout << "List cleared" << endl;
             list.clear();
+        }
+        else if(input == "reverse") {
+            cout << "List reversed" << endl;
+            list.reverse();
         }
         else if(input == "fill_rand") {
             unsigned long num = 0;
@@ -129,7 +137,7 @@ int main()
 
             list.clear();
             for(unsigned long i=0; i<num; i++) {
-                list << rand();
+                list.push_back(rand());
             }
         }
         else if(input == "fill_order") {
